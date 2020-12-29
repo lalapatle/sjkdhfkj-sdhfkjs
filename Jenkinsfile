@@ -31,14 +31,13 @@ pipeline {
                 -Dsonar.login=7aaad228b90325c0daa0ecd15a750e4d5584d94e'''
             }
            } 
-       stage('Quality Gate'){
-          timeout(time: 1, unit: 'HOURS') {
-              def qg = waitForQualityGate()
-              if (qg.status != 'OK') {
-                  error "Pipeline aborted due to quality gate failure: ${qg.status}"
+      stage('Quality Gate') {
+            steps {
+              timeout(time: 1, unit: 'HOURS') {
+                waitForQualityGate abortPipeline: true
               }
-          }
-      }        
+            }
+          }    
       
 
             stage('Maven Package'){
