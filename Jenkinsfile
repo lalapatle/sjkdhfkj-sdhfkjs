@@ -16,12 +16,7 @@ pipeline {
        }
        }
    
-    stage('Maven Package'){
-        steps{
-            echo 'Project packaging stage'
-            bat label: 'Project packaging', script: '''mvn package'''
-        }
-    }  
+   
     
      stage('Jacoco Coverage Report') {
             steps{
@@ -35,7 +30,19 @@ pipeline {
                 -Dsonar.host.url=http://localhost:9000 \
                 -Dsonar.login=7aaad228b90325c0daa0ecd15a750e4d5584d94e'''
             }
-           }      
+           } 
+       stage('Quality gate'){
+       steps{
+       waitForQualityGate abortPipeline:true
+       }
+       }
+       
+            stage('Maven Package'){
+        steps{
+            echo 'Project packaging stage'
+            bat label: 'Project packaging', script: '''mvn package'''
+        }
+    }       
    
   }
 }
