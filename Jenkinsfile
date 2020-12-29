@@ -31,7 +31,7 @@ pipeline {
                 -Dsonar.login=7aaad228b90325c0daa0ecd15a750e4d5584d94e'''
             }
            } 
-       stage("Quality Gate"){
+       stage('Quality Gate'){
           timeout(time: 1, unit: 'HOURS') {
               def qg = waitForQualityGate()
               if (qg.status != 'OK') {
